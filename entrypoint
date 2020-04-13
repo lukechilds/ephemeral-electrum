@@ -9,4 +9,4 @@ if ! electrum restore "$seed" > /dev/null 2>&1 ]]; then
 		exit 1
 	fi
 fi
-electrum --gui text
+exec electrum --gui text $server_args
