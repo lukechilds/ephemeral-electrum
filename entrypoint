@@ -2,5 +2,11 @@
 
 seed=$1
 
-electrum restore "$seed"
+echo "Importing seed or key..."
+if ! electrum restore "$seed" > /dev/null 2>&1 ]]; then
+	if ! electrum restore "$(bip39toxprv $seed)" > /dev/null 2>&1; then
+		>&2 echo "Error: Seed or key not recognised."
+		exit 1
+	fi
+fi
 electrum --gui text

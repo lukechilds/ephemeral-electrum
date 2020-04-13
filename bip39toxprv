@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+from electrum import keystore
+import sys
+
+mnemonic = ' '.join(sys.argv[1: ])
+
+if not keystore.bip39_is_checksum_valid(mnemonic)[0]:
+    sys.exit(1)
+
+k = keystore.from_bip39_seed(mnemonic, "", "m/84'/0'/0'")
+print(k.xprv)

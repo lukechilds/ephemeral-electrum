@@ -17,5 +17,5 @@ RUN ln -s $ELECTRUM_INSTALL_DIR/run_electrum /usr/local/bin/electrum
 
 WORKDIR /root
 
-COPY entrypoint /usr/local/bin/
+COPY entrypoint bip39toxprv /usr/local/bin/
 ENTRYPOINT ["entrypoint"]
