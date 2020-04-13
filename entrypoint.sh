@@ -1,6 +1,6 @@
 #!/bin/sh
 
-electrum="/electrum/run_electrum --portable"
+electrum="electrum --portable"
 
 $electrum create
 $electrum --gui text
