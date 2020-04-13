@@ -14,3 +14,6 @@ RUN git submodule update --init
 RUN apt-get install -y libsecp256k1-0
 RUN python3 -m pip install --user . cryptography
 
+ADD ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
