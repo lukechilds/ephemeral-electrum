@@ -1,4 +1,6 @@
 #!/bin/sh
 
-electrum create
+seed=$1
+
+electrum restore "$seed"
 electrum --gui text
