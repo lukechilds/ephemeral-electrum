@@ -17,6 +17,10 @@ Single addresses can be imported using the Electrum addres-type:wif format.
 
 It's like a muggle friendly [Magical Bitcoin Wallet](https://github.com/MagicalBitcoin/magical-bitcoin-wallet).
 
+<div align="center">
+	<img src="media/demo.gif" width="879">
+</div>
+
 ## Usage
 
 ```
