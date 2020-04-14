@@ -14,7 +14,7 @@ RUN apt-get install -y git
 RUN git clone git://github.com/spesmilo/electrum.git $ELECTRUM_INSTALL_DIR
 RUN git checkout $ELECTRUM_VERSION
 RUN git submodule update --init
-RUN apt-get install -y libsecp256k1-0
+RUN apt-get install -y build-essential libssl-dev libffi-dev python3-dev libsecp256k1-0
 RUN python3 -m pip install --user . cryptography
 RUN ln -s $ELECTRUM_INSTALL_DIR/run_electrum /usr/local/bin/electrum
 
