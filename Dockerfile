@@ -19,6 +19,7 @@ RUN apt-get install -y build-essential libssl-dev libffi-dev python3-dev
 RUN python3 -m pip install --user . cryptography
 
 FROM $ARCH/python:3.7-slim-buster as ephemeral-electrum
+LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ARG ELECTRUM_INSTALL_DIR
 
