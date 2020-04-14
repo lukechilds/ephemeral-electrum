@@ -23,49 +23,49 @@ It's like a muggle friendly [Magical Bitcoin Wallet](https://github.com/MagicalB
 
 ## Usage
 
-```
-seed="much bottom such hurt hunt welcome cushion erosion pulse admit name deer"
-docker run -it lukechilds/ephemeral-electrum "$seed"
+```shell
+$ seed="much bottom such hurt hunt welcome cushion erosion pulse admit name deer"
+$ docker run -it lukechilds/ephemeral-electrum "$seed"
 ```
 
 You can also specify a single Electrum server to connect to:
 
-```
-docker run -it lukechilds/ephemeral-electrum "$seed" bitcoin.lukechilds.co:50002:s
+```shell
+$ docker run -it lukechilds/ephemeral-electrum "$seed" bitcoin.lukechilds.co:50002:s
 ```
 
 You can pass in a seed phrase, xpub or xprv. The following all open the same wallet:
 
-```
-seed="much bottom such hurt hunt welcome cushion erosion pulse admit name deer"
-docker run -it lukechilds/ephemeral-electrum "$seed"
+```shell
+$ seed="much bottom such hurt hunt welcome cushion erosion pulse admit name deer"
+$ docker run -it lukechilds/ephemeral-electrum "$seed"
 
-xprv="zprvAcMRAFo3MYezabw3DuoGtZW4gFsgejCzVBT6mM7dd5TrhN5QSfrEjYcn4ZurjAoBT2ocLY7bH1bLpYKdrg1EbF3FtZjBCC6WPGVWqi7yJyc"
-docker run -it lukechilds/ephemeral-electrum "$xprv"
+$ xprv="zprvAcMRAFo3MYezabw3DuoGtZW4gFsgejCzVBT6mM7dd5TrhN5QSfrEjYcn4ZurjAoBT2ocLY7bH1bLpYKdrg1EbF3FtZjBCC6WPGVWqi7yJyc"
+$ docker run -it lukechilds/ephemeral-electrum "$xprv"
 
-xpub="zpub6qLmZmKwBvDHo61WKwLHFhSoEHiB4BvqrQNhZjXFBQzqaAQYzDAVHLwFusoTFSwai8ZpR3uKEaYMo34nWiJhJ1v4sbusJRHMSLd3hMZUmcp"
-docker run -it lukechilds/ephemeral-electrum "$xpub"
+$ xpub="zpub6qLmZmKwBvDHo61WKwLHFhSoEHiB4BvqrQNhZjXFBQzqaAQYzDAVHLwFusoTFSwai8ZpR3uKEaYMo34nWiJhJ1v4sbusJRHMSLd3hMZUmcp"
+$ docker run -it lukechilds/ephemeral-electrum "$xpub"
 ```
 
 You can import a single address by passing in the address type and WIF:
 
-```
+```shell
 # 1NrjsCoAgkGmZWniw9dunW9ZPJHiywZWA4
-docker run -it lukechilds/ephemeral-electrum "p2pkh:L3fnoTepxVUcdayujGXFnE4twWcd13zKbPgtyPKhkgmUUSTaPPbR"
+$ docker run -it lukechilds/ephemeral-electrum "p2pkh:L3fnoTepxVUcdayujGXFnE4twWcd13zKbPgtyPKhkgmUUSTaPPbR"
 
 # 3N5Z9cXYJxUKD6ydinLw9MdMDtbwLuRDRP
-docker run -it lukechilds/ephemeral-electrum "p2wpkh-p2sh:L3bm714EVAtRivbdxJ9GBFqCGPsViFzZN1ChH3DUtaZ8AqK1QhQ6"
+$ docker run -it lukechilds/ephemeral-electrum "p2wpkh-p2sh:L3bm714EVAtRivbdxJ9GBFqCGPsViFzZN1ChH3DUtaZ8AqK1QhQ6"
 
 # bc1qpz4fqgev077446rjzaj7e7pa0jh6j272sjw38g
-docker run -it lukechilds/ephemeral-electrum "p2wpkh:L2FXuzGMVAPH9CVGfAxNJiT1teR8YGh2BLoummxXY1W51QQVDZ5M"
+$ docker run -it lukechilds/ephemeral-electrum "p2wpkh:L2FXuzGMVAPH9CVGfAxNJiT1teR8YGh2BLoummxXY1W51QQVDZ5M"
 ```
 
 ## Build
 
 Build this image yourself by checking out this repo, `cd` ing into it and running:
 
-```
-docker build -t lukechilds/ephemeral-electrum .
+```shell
+$ docker build -t lukechilds/ephemeral-electrum .
 ```
 
 ## License
