@@ -1,0 +1,76 @@
+name: Docker CI
+on: push
+env:
+  DOCKER_BUILDKIT: 1
+  LATEST_TAG: 3.3.8
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - amd64
+          - arm64v8
+          - arm32v7
+        version:
+          - 3.3.8
+    steps:
+      - uses: actions/checkout@v1
+      - name: Register Docker QEMU
+        if: matrix.arch != 'amd64'
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Build ephemeral-electrum
+        run: docker build --build-arg ARCH=${{matrix.arch}} --build-arg ELECTRUM_VERSION=${{matrix.version}} -t ephemeral-electrum:v${{matrix.version}}-${{matrix.arch}} .
+      - name: Log image data
+        run: docker images ephemeral-electrum
+      - name: Log OS details
+        run: docker run --entrypoint sh ephemeral-electrum:v${{matrix.version}}-${{matrix.arch}} '-c' 'uname -a && . /etc/os-release && echo $PRETTY_NAME'
+      - name: Save image tarballs
+        run: mkdir -p images && docker save ephemeral-electrum:v${{matrix.version}}-${{matrix.arch}} | gzip > "images/ephemeral-electrum-v${{matrix.version}}-${{matrix.arch}}.tgz"
+      - name: Print sha256sum of built image
+        run: sha256sum images/*
+      - name: Upload image tarballs
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: images
+          path: images/
+  publish:
+    name: Publish
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - name: Download image tarballs
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: images
+      - name: Print sha256sum of all images
+        run: sha256sum images/*
+      - name: Load image tarballs
+        run: for image in images/*; do docker load -i $image; done
+      - name: Set image namespace
+        run: docker images ephemeral-electrum --format "{{.Tag}}" | while read -r tag; do docker tag  "ephemeral-electrum:${tag}"  "lukechilds/ephemeral-electrum:${tag}"; done
+      - name: Log image data
+        run: docker images lukechilds/ephemeral-electrum
+      - name: Login to Docker Hub
+        run: echo "${{secrets.DOCKER_TOKEN}}" | docker login -u=lukechilds --password-stdin
+      - name: Push to Docker Hub
+        run: docker push lukechilds/ephemeral-electrum
+      - name: Create and push multi-arch manifests
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled # To enable manifests
+        run: |
+          versions=$(docker images lukechilds/ephemeral-electrum --format "{{.Tag}}" | grep amd64 | cut -d- -f1)
+          for version in $versions; do
+            tags=$(docker images lukechilds/ephemeral-electrum --format "{{.Tag}}" | grep $version- | sed 's/^/lukechilds\/ephemeral-electrum\:&/')
+            if [[ "${version}" = "v${LATEST_TAG}" ]]; then
+              docker manifest create lukechilds/ephemeral-electrum:latest $tags
+              docker manifest push lukechilds/ephemeral-electrum:latest
+            fi
+            docker manifest create "lukechilds/ephemeral-electrum:${version}" $tags
+            docker manifest push "lukechilds/ephemeral-electrum:${version}"
+            docker manifest inspect "lukechilds/ephemeral-electrum:${version}"
+            echo
+          done
