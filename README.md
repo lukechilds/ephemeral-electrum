@@ -9,7 +9,11 @@
 
 > A quick throwaway text based Electrum instance.
 
-Handy for quickly checking the state of a given hierarchical deterministic wallet. Supports importing Electrum and BIP39 mnemonic seed phrases as well as extend public and private keys.
+Handy for quickly checking the state of a given hierarchical deterministic wallet or single address.
+
+HD wallets can be imported as Electrum or BIP39 mnemonic seed phrases as well as extend public and private keys.
+
+Single addresses can be imported using the Electrum addres-type:wif format.
 
 It's like a muggle friendly [Magical Bitcoin Wallet](https://github.com/MagicalBitcoin/magical-bitcoin-wallet).
 
@@ -37,6 +41,19 @@ docker run -it lukechilds/ephemeral-electrum "$xprv"
 
 xpub="zpub6qLmZmKwBvDHo61WKwLHFhSoEHiB4BvqrQNhZjXFBQzqaAQYzDAVHLwFusoTFSwai8ZpR3uKEaYMo34nWiJhJ1v4sbusJRHMSLd3hMZUmcp"
 docker run -it lukechilds/ephemeral-electrum "$xpub"
+```
+
+You can import a single address by passing in the address type and WIF:
+
+```
+# 1NrjsCoAgkGmZWniw9dunW9ZPJHiywZWA4
+docker run -it lukechilds/ephemeral-electrum "p2pkh:L3fnoTepxVUcdayujGXFnE4twWcd13zKbPgtyPKhkgmUUSTaPPbR"
+
+# 3N5Z9cXYJxUKD6ydinLw9MdMDtbwLuRDRP
+docker run -it lukechilds/ephemeral-electrum "p2wpkh-p2sh:L3bm714EVAtRivbdxJ9GBFqCGPsViFzZN1ChH3DUtaZ8AqK1QhQ6"
+
+# bc1qpz4fqgev077446rjzaj7e7pa0jh6j272sjw38g
+docker run -it lukechilds/ephemeral-electrum "p2wpkh:L2FXuzGMVAPH9CVGfAxNJiT1teR8YGh2BLoummxXY1W51QQVDZ5M"
 ```
 
 ## Build
