@@ -4,7 +4,7 @@ seed=$1
 server=$2
 
 echo "Importing seed or key..."
-if ! electrum restore "$seed" > /dev/null 2>&1 ]]; then
+if ! electrum restore "$seed" > /dev/null 2>&1; then
 	if ! electrum restore "$(bip39toxprv $seed)" > /dev/null 2>&1; then
 		>&2 echo "Error: Seed or key not recognised."
 		exit 1
